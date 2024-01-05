@@ -20,7 +20,7 @@ class RandomRegular(Graph):
         Number of nodes (default is 64)
     k : int
         Number of connections, or degree, of each node (default is 6)
-    max_iter : int
+    maxIter : int
         Maximum number of iterations (default is 10)
     seed : int
         Seed for the random number generator (for reproducible graphs).
@@ -43,23 +43,20 @@ class RandomRegular(Graph):
     >>> G.set_coordinates(kind='spring', seed=42)
     >>> fig, axes = plt.subplots(1, 2)
     >>> _ = axes[0].spy(G.W, markersize=2)
-    >>> _ = G.plot(ax=axes[1])
+    >>> G.plot(ax=axes[1])
 
     """
 
-    def __init__(self, N=64, k=6, max_iter=10, seed=None, **kwargs):
-
+    def __init__(self, N=64, k=6, maxIter=10, seed=None, **kwargs):
         self.k = k
-        self.max_iter = max_iter
-        self.seed = seed
 
         self.logger = utils.build_logger(__name__)
 
-        rng = np.random.default_rng(seed)
+        rs = np.random.RandomState(seed)
 
         # continue until a proper graph is formed
         if (N * k) % 2 == 1:
-            raise ValueError("input error: N*d must be even!")
+            raise ValueError("input error: N*k must be even!")
 
         # a list of open half-edges
         U = np.kron(np.ones(k), np.arange(N))
@@ -70,18 +67,19 @@ class RandomRegular(Graph):
         edgesTested = 0
         repetition = 1
 
-        while np.size(U) and repetition < max_iter:
+        while np.size(U) and repetition < maxIter:
             edgesTested += 1
 
+            # print(progess)
             if edgesTested % 5000 == 0:
                 self.logger.debug("createRandRegGraph() progress: edges= "
                                   "{}/{}.".format(edgesTested, N*k/2))
 
             # chose at random 2 half edges
-            i1 = rng.integers(0, U.shape[0])
-            i2 = rng.integers(0, U.shape[0])
-            v1 = U[i1]
-            v2 = U[i2]
+            i1 = rs.randint(0, np.shape(U)[0])
+            i2 = rs.randint(0, np.shape(U)[0])
+            v1 = int(U[i1])
+            v2 = int(U[i2])
 
             # check that there are no loops nor parallel edges
             if v1 == v2 or A[v1, v2] == 1:
@@ -100,7 +98,8 @@ class RandomRegular(Graph):
                 v = sorted([i1, i2])
                 U = np.concatenate((U[:v[0]], U[v[0] + 1:v[1]], U[v[1] + 1:]))
 
-        super(RandomRegular, self).__init__(A, **kwargs)
+        super(RandomRegular, self).__init__(W=A, gtype="random_regular",
+                                            **kwargs)
 
         self.is_regular()
 
@@ -134,6 +133,3 @@ class RandomRegular(Graph):
 
         if warn:
             self.logger.warning('{}.'.format(msg[:-1]))
-
-    def _get_extra_repr(self):
-        return dict(k=self.k, seed=self.seed)
