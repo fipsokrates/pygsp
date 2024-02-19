@@ -30,14 +30,14 @@ from . import utils  # noqa: F401
 # It's thus more convenient for them to have the doc there.
 # But it's more convenient for developers to have the doc alongside the code.
 try:
-    filters.Filter.plot.__doc__ = plotting._plot_filter.__doc__
-    graphs.Graph.plot.__doc__ = plotting._plot_graph.__doc__
-    graphs.Graph.plot_spectrogram.__doc__ = plotting._plot_spectrogram.__doc__
+    filters.Filter.plot.__doc__ = plotting.plot_filter.__doc__
+    graphs.Graph.plot.__doc__ = plotting.plot_graph.__doc__
+    graphs.Graph.plot_spectrogram.__doc__ = plotting.plot_spectrogram.__doc__
 except AttributeError:
     # For Python 2.7.
-    filters.Filter.plot.__func__.__doc__ = plotting._plot_filter.__doc__
-    graphs.Graph.plot.__func__.__doc__ = plotting._plot_graph.__doc__
-    graphs.Graph.plot_spectrogram.__func__.__doc__ = plotting._plot_spectrogram.__doc__
+    filters.Filter.plot.__func__.__doc__ = plotting.plot_filter.__doc__
+    graphs.Graph.plot.__func__.__doc__ = plotting.plot_graph.__doc__
+    graphs.Graph.plot_spectrogram.__func__.__doc__ = plotting.plot_spectrogram.__doc__
 
 __version__ = '0.5.1'
 __release_date__ = '2017-12-15'

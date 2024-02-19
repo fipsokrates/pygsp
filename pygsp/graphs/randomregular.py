@@ -98,9 +98,11 @@ class RandomRegular(Graph):
                 v = sorted([i1, i2])
                 U = np.concatenate((U[:v[0]], U[v[0] + 1:v[1]], U[v[1] + 1:]))
 
-        super(RandomRegular, self).__init__(W=A, gtype="random_regular",
+        super(RandomRegular, self).__init__(adjacency=A, **kwargs)
+        '''
+        super(RandomRegular, self).__init__(adjacency=A, gtype="random_regular",
                                             **kwargs)
-
+        '''
         self.is_regular()
 
     def is_regular(self):

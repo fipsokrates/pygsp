@@ -1018,17 +1018,21 @@ class Graph(FourierMixIn, DifferenceMixIn, IOMixIn, LayoutMixIn):
         assert self.n_edges == sources.size == targets.size == weights.size
         return sources, targets, weights
 
-    def plot(self, vertex_color=None, vertex_size=None, highlight=[],
+    def plot(self, vertex_color=None, vertex_size=100, highlight=[],
              edges=None, edge_color=None, edge_width=None,
              indices=False, colorbar=True, limits=None, ax=None,
              title=None, backend=None):
         r"""Docstring overloaded at import time."""
-        from pygsp.plotting import _plot_graph
-        return _plot_graph(self, vertex_color=vertex_color,
+        from pygsp.plotting import plot_graph
+        # edge_color=edge_color, edge_width=edge_width,
+        return plot_graph(self, vertex_size=vertex_size, ax=ax, backend=backend)
+        '''
+        return plot_graph(self, vertex_color=vertex_color,
                            vertex_size=vertex_size, highlight=highlight,
                            edges=edges, indices=indices, colorbar=colorbar,
                            edge_color=edge_color, edge_width=edge_width,
                            limits=limits, ax=ax, title=title, backend=backend)
+        '''
 
     def plot_signal(self, *args, **kwargs):
         r"""Deprecated, use plot() instead."""

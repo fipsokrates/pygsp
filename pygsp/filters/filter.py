@@ -753,6 +753,8 @@ class Filter(object):
     def plot(self, n=500, eigenvalues=None, sum=None, labels=None, title=None,
              ax=None, **kwargs):
         r"""Docstring overloaded at import time."""
-        from pygsp.plotting import _plot_filter
-        return _plot_filter(self, n=n, eigenvalues=eigenvalues, sum=sum,
-                            labels=labels, title=title, ax=ax, **kwargs)
+        from pygsp.plotting import plot_filter
+        return plot_filter(self, npoints=n, plot_eigenvalues=eigenvalues, show_sum=sum, ax=ax, **kwargs)
+
+        #return plot_filter(self, n=n, eigenvalues=eigenvalues, sum=sum,
+        #                    labels=labels, title=title, ax=ax, **kwargs)
